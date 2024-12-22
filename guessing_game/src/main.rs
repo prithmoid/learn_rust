@@ -24,11 +24,7 @@ fn main() {
         return Some(guess);
     }
 
-    loop {
-        secret_number = rand::thread_rng().gen_range(1..=100);
-
-        println!("Level {level}, try to guess number:");
-
+    fn match_guess(secret_number: u32, mut level: u32) -> u32 {
         loop {
             let guess = get_guess();
 
@@ -42,9 +38,15 @@ fn main() {
                 Ordering::Equal => {
                     println!("You win!");
                     level += 1;
-                    break;
+                    return level;
                 }
             }
         }
+    }
+
+    loop {
+        secret_number = rand::thread_rng().gen_range(1..=100);
+        level = match_guess(secret_number, level);
+        println!("Level {level}, try to guess number:");
     }
 }
